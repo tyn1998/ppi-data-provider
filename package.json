@@ -1,0 +1,25 @@
+{
+  "name": "ppi-data-provider",
+  "version": "1.0.0",
+  "description": "",
+  "main": "computeLayout.js",
+  "scripts": {
+      "provide": "npm run jsonifySpecies && npm run computeLayout",
+      "jsonifySpecies": "node ./src/jsonifySpecies.js",
+      "computeLayout": "node ./src/computeLayout.js",
+      "server": "http-server ./data/output --cors -p 9090"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "event-stream": "^3.3.1",
+    "JSONStream": "^1.0.6",
+    "ngraph.forcelayout": "0.0.12",
+    "ngraph.forcelayout3d": "0.0.5",
+    "ngraph.graph": "0.0.11",
+    "ngraph.offline.layout": "^1.0.0",
+    "ngraph.serialization": "0.0.7",
+    "ngraph.tobinary": "^1.0.0",
+    "tsv": "^0.2.0"
+  }
+}
