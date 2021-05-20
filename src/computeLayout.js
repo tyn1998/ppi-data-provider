@@ -3,6 +3,7 @@ const readline = require("readline");
 const ngraph = require("ngraph.graph");
 const offlineLayout = require("ngraph.offline.layout");
 const save = require("ngraph.tobinary");
+const isComputedLayout = require('./judge').isComputedLayout;
 
 const rootDir = `${__dirname}/..`;
 const inputDir = `${rootDir}/data/input`;
@@ -97,6 +98,10 @@ async function main() {
   }
   for (let i = 0; i < jobNum; i++) {
     console.log(`# (${i}/${jobNum}) ID: ${speciesIds[i]}`);
+    if (isComputedLayout(speciesIds[i])) {
+      console.log('Layout has been computed, skip.');
+      continue;
+    }
 
     let speciesDir = `${outputDir}/${speciesIds[i]}`;
     let layoutDir = `${speciesDir}/layout`;

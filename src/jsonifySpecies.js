@@ -2,24 +2,24 @@ const fs = require("fs");
 const readline = require("readline");
 const speciesBasic = require("./readTsv").getSpeciesBasicObj();
 
-const rootDir             = `${__dirname}/..`;
-const inputDir            = `${rootDir}/data/input`;
-const outputDir           = `${rootDir}/data/output`;
-const jobListPath         = `${inputDir}/jobList.txt`;
-const outputOfLifeTreeDir = `${inputDir}/outputOfLifeTree`;
-const speciesBasicInfoDir = `${inputDir}/speciesBasicInfo`;
-const betweennessDir      = `${outputOfLifeTreeDir}/betweenness`;
-const closenessDir        = `${outputOfLifeTreeDir}/closeness`;
-const clusteringDir       = `${outputOfLifeTreeDir}/clustering`;
-const curvatureDir        = `${outputOfLifeTreeDir}/curvature`;
-const degreecentralityDir = `${outputOfLifeTreeDir}/degreecentrality`;
-const degreesDir          = `${outputOfLifeTreeDir}/degrees`;
-const fragmentationDir    = `${outputOfLifeTreeDir}/fragmentation`;
-const kcoresDir           = `${outputOfLifeTreeDir}/kcores`;
-const lorenzDir           = `${outputOfLifeTreeDir}/lorenz`;
-const orcaDir             = `${outputOfLifeTreeDir}/orca-statistics`;
-const statisticsDir       = `${outputOfLifeTreeDir}/statistics`;
-const taxonomiesDir       = `${speciesBasicInfoDir}/taxonomies`;
+const rootDir                  = `${__dirname}/..`;
+const inputDir                 = `${rootDir}/data/input`;
+const outputDir                = `${rootDir}/data/output`;
+const jobListPath              = `${inputDir}/jobList.txt`;
+const outputOfLifeTreeDir      = `${inputDir}/outputOfLifeTree`;
+const outputOfPpiResilienceDir = `${inputDir}/outputOfPpiResilience`;
+const speciesBasicInfoDir      = `${inputDir}/speciesBasicInfo`;
+const betweennessDir           = `${outputOfLifeTreeDir}/betweenness`;
+const closenessDir             = `${outputOfLifeTreeDir}/closeness`;
+const clusteringDir            = `${outputOfLifeTreeDir}/clustering`;
+const curvatureDir             = `${outputOfLifeTreeDir}/curvature`;
+const degreecentralityDir      = `${outputOfLifeTreeDir}/degreecentrality`;
+const degreesDir               = `${outputOfLifeTreeDir}/degrees`;
+const kcoresDir                = `${outputOfLifeTreeDir}/kcores`;
+const lorenzDir                = `${outputOfLifeTreeDir}/lorenz`;
+const orcaDir                  = `${outputOfLifeTreeDir}/orca-statistics`;
+const statisticsDir            = `${outputOfLifeTreeDir}/statistics`;
+const taxonomiesDir            = `${speciesBasicInfoDir}/taxonomies`;
 
 function getSpeciesBetweenness(speciesId) {
   return new Promise((resolve, reject) => {
@@ -131,6 +131,19 @@ function getSpeciesTaxonomies(speciesId) {
   return arr;
 }
 
+function getSpeciesResilience(speciesId) {
+  const filePath = `${outputOfPpiResilienceDir}/${speciesId}`;
+  let resilienceStr = fs.readFileSync(filePath).toString();
+  let fourResilience = resilienceStr.split("\n");
+  let resilienceObj = {
+    random: parseFloat(fourResilience[0]),
+    betweenness: parseFloat(fourResilience[1]),
+    closeness: parseFloat(fourResilience[2]),
+    degreecentrality: parseFloat(fourResilience[3])
+  }
+  return resilienceObj;
+}
+
 function getSpeciesDegrees(speciesId) {
   return new Promise((resolve, reject) => {
     const filePath = `${degreesDir}/${speciesId}`;
@@ -213,6 +226,7 @@ function getSpeciesStatistics(speciesId) {
 
 async function speciesToObj(speciesId) {
   let speciesTaxonomies = getSpeciesTaxonomies(speciesId);
+  let speciesResilience = getSpeciesResilience(speciesId);
   let speciesDegrees    = await getSpeciesDegrees(speciesId);
   let speciesKcores     = await getSpeciesKcores(speciesId);
   let speciesLorenz     = await getSpeciesLorenz(speciesId);
@@ -221,6 +235,7 @@ async function speciesToObj(speciesId) {
   speciesObj = {
     ...speciesBasic[speciesId],
     taxonomies: speciesTaxonomies,
+    resilience: speciesResilience,
     degrees: speciesDegrees,
     kcores: speciesKcores,
     lorenz: speciesLorenz,
