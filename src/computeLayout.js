@@ -97,7 +97,7 @@ async function main() {
     fs.mkdirSync(outputDir);
   }
   for (let i = 0; i < jobNum; i++) {
-    console.log(`# (${i}/${jobNum}) ID: ${speciesIds[i]}`);
+    console.log(`# (${i+1}/${jobNum}) ID: ${speciesIds[i]}`);
     if (isComputedLayout(speciesIds[i])) {
       console.log('Layout has been computed, skip.');
       continue;

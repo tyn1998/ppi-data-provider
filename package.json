@@ -7,6 +7,8 @@
       "provide": "npm run jsonifySpecies && npm run computeLayout",
       "jsonifySpecies": "node ./src/jsonifySpecies.js",
       "computeLayout": "node ./src/computeLayout.js",
+      "overview": "node ./src/overview.js",
+      "compare": "node ./src/computeCompare.js",
       "server": "http-server ./data/output --cors -p 9090"
   },
   "author": "",

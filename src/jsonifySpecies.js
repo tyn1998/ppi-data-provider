@@ -132,7 +132,7 @@ function getSpeciesTaxonomies(speciesId) {
 }
 
 function getSpeciesResilience(speciesId) {
-  const filePath = `${outputOfPpiResilienceDir}/${speciesId}`;
+  const filePath = `${outputOfPpiResilienceDir}/${speciesId}/resilience`;
   let resilienceStr = fs.readFileSync(filePath).toString();
   let fourResilience = resilienceStr.split("\n");
   let resilienceObj = {
@@ -332,7 +332,7 @@ async function main() {
     fs.mkdirSync(outputDir);
   }
   for (let i = 0; i < jobNum; i++) {
-    console.log(`# (${i}/${jobNum}) ID: ${speciesIds[i]}`);
+    console.log(`# (${i+1}/${jobNum}) ID: ${speciesIds[i]}`);
     await speciesToJson(speciesIds[i]);
   }
 

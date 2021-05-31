@@ -15,6 +15,11 @@ function compare(property){
     }
 }
 
+function getAllEvolution() {
+  let evolution = tsv.parse(fs.readFileSync(evolutionPath).toString());
+  return evolution;
+}
+
 function getSpeciesBasicObj() {
     let speciesName = tsv.parse(fs.readFileSync(speciesNamePath).toString());
     let pubmedCount = tsv.parse(fs.readFileSync(pubmedCountPath).toString());
@@ -54,3 +59,4 @@ function getSpeciesBasicObj() {
 }
 
 exports.getSpeciesBasicObj = getSpeciesBasicObj;
+exports.getAllEvolution = getAllEvolution;
